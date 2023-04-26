@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import QrCodeScanner from './src/QrCodeScanner'
-import {HomeScreen} from './src/HomeScreen'
+import HomeScreen from './src/HomeScreen'
 
 const Stack = createNativeStackNavigator();
 
