@@ -9,30 +9,17 @@ import {
     TouchableOpacity
 } from "react-native";
 import EntypoIcon from "react-native-vector-icons/Entypo";
-
+import ServerProxy from "../Network/ServerProxy"
 export default class LoadElements extends Component<any, any> {
-    state = {
-        data: [
-            {
-                id: '1',
-                title: "Paper",
-                quantity: 0
-            },
-            {
-                id: "2",
-                title: "Glass",
-                quantity: 0
-            },
-            {
-                id: "3",
-                title: "Cardboard",
-                quantity: 0
-            }
-        ]
-    };
-
+    ServerProxyInstance = new ServerProxy();
+    state = {data: []}
     renderItem = ({ item }) => {
-        console.log(this.state.data[0])
+        console.log("render item")
+        console.log(this.state)
+        this.setState({
+            state: this.ServerProxyInstance.getItemsByCategory('Plastic Bottle')
+        });
+        console.log(this.state)
         return (
             <View style={styles.listitem}>
                 <Text style={styles.textStyle}>{item.title}</Text>
@@ -90,7 +77,7 @@ export default class LoadElements extends Component<any, any> {
                 />
                 <View style={styles.buttonStyle}>
                     <Button
-                        onPress={this.buttonClickListener}
+                        //onPress={this.buttonClickListener}
                         title="Emit invoice"
                         color="#FF3D00"
                     />
