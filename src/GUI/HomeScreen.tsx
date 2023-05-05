@@ -12,7 +12,7 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 import ServerProxy from "../Network/ServerProxy"
 export default class LoadElements extends Component<any, any> {
     ServerProxyInstance = new ServerProxy();
-    state = this.ServerProxyInstance.getItemsByCategory('Plastic Bottle')
+    state = this.ServerProxyInstance.getItemsByCategory('PLASTIC_AND_BOTTLE')
     renderItem = ({ item }) => {
         console.log("render item")
         console.log(this.state)
@@ -71,7 +71,7 @@ export default class LoadElements extends Component<any, any> {
                 <View style={styles.buttonStyle}>
                     <Button
                         //onPress={this.buttonClickListener}
-                        title="Emit invoice"
+                        title="Emit Inv"
                         color="#FF3D00"
                     />
                 </View>

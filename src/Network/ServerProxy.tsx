@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 export default class LoadElements{
-    getItemsByCategory = (category) =>{
-        var state = {
+    getItemsByCategory = async (category) => {
+        let state =  {
             data: [
                 {
                     id: '1',
@@ -21,7 +21,17 @@ export default class LoadElements{
                 }
             ]
         };
+        console.log('http://localhost:8080/items/findAllByCategory?categoryType=' + category)
+        try {
+            let response = await fetch(
+                'http://localhost:8080/items/findAllByCategory?categoryType=' + category
+            );
+            let json = await response.json();
+            console.log(json)
+        } catch (error) {
+            console.error(error);
+        }
         return state;
-    }
+    };
 
 }
