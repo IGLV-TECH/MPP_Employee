@@ -12,13 +12,10 @@ import EntypoIcon from "react-native-vector-icons/Entypo";
 import ServerProxy from "../Network/ServerProxy"
 export default class LoadElements extends Component<any, any> {
     ServerProxyInstance = new ServerProxy();
-    state = {data: []}
+    state = this.ServerProxyInstance.getItemsByCategory('Plastic Bottle')
     renderItem = ({ item }) => {
         console.log("render item")
         console.log(this.state)
-        this.setState({
-            state: this.ServerProxyInstance.getItemsByCategory('Plastic Bottle')
-        });
         console.log(this.state)
         return (
             <View style={styles.listitem}>
@@ -63,10 +60,6 @@ export default class LoadElements extends Component<any, any> {
         });
         this.setState({ data: newData });
     };
-
-
-
-
     render() {
         return (
             <SafeAreaView style={styles.container}>

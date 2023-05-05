@@ -11,7 +11,7 @@ export default class LoadElements{
                 },
                 {
                     id: "2",
-                    title: "Glass",
+                    title: "Glasso",
                     quantity: 0
                 },
                 {
