@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
     SafeAreaView,
     Button,
@@ -6,17 +6,22 @@ import {
     FlatList,
     StyleSheet,
     Text,
-    TouchableOpacity
-} from "react-native";
-import EntypoIcon from "react-native-vector-icons/Entypo";
-import ServerProxy from "../Network/ServerProxy"
+    TouchableOpacity,
+} from 'react-native';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import ServerProxy from '../Network/ServerProxy';
 export default class LoadElements extends Component<any, any> {
     ServerProxyInstance = new ServerProxy();
-    state = this.ServerProxyInstance.getItemsByCategory('PLASTIC_AND_BOTTLE')
+    state = {
+
+    };
+    async componentDidMount() {
+        const data = await this.ServerProxyInstance.getItemsByCategory(
+            'PLASTIC_AND_BOTTLE'
+        );
+        this.setState( data );
+    }
     renderItem = ({ item }) => {
-        console.log("render item")
-        console.log(this.state)
-        console.log(this.state)
         return (
             <View style={styles.listitem}>
                 <Text style={styles.textStyle}>{item.title}</Text>
@@ -33,13 +38,12 @@ export default class LoadElements extends Component<any, any> {
         );
     };
 
-    increaseValue = id => {
-        console.log(id)
-        const newData = this.state.data.map(item => {
+    increaseValue = (id) => {
+        const newData = this.state.data.map((item) => {
             if (item.id === id) {
                 return {
                     ...item,
-                    quantity: item.quantity + 1
+                    quantity: item.quantity + 1,
                 };
             }
             return item;
@@ -47,31 +51,31 @@ export default class LoadElements extends Component<any, any> {
         this.setState({ data: newData });
     };
 
-    decreaseValue = id => {
-        const newData = this.state.data.map(item => {
+    decreaseValue = (id) => {
+        const newData = this.state.data.map((item) => {
             if (item.id === id) {
-                console.log(item.id)
                 return {
                     ...item,
-                    quantity: item.quantity > 0 ? item.quantity - 1 : 0
+                    quantity: item.quantity > 0 ? item.quantity - 1 : 0,
                 };
             }
             return item;
         });
         this.setState({ data: newData });
     };
+
     render() {
         return (
             <SafeAreaView style={styles.container}>
                 <FlatList
                     data={this.state.data}
                     renderItem={this.renderItem}
-                    keyExtractor={item => item.id}
+                    keyExtractor={(item) => item.id}
                 />
                 <View style={styles.buttonStyle}>
                     <Button
                         //onPress={this.buttonClickListener}
-                        title="Emit Inv"
+                        title="Emit Invoice"
                         color="#FF3D00"
                     />
                 </View>
@@ -83,22 +87,21 @@ export default class LoadElements extends Component<any, any> {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 50
+        marginTop: 50,
     },
     listitem: {
         padding: 20,
         marginVertical: 8,
         marginHorizontal: 16,
-        flexDirection: "row",
-        justifyContent: "space-between"
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     counter: {
         padding: 20,
         height: 37,
         width: 120,
-        flexDirection: "row",
-        justifyContent: "space-between",
-
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
     textStyle: {
         fontSize: 25,
@@ -106,20 +109,22 @@ const styles = StyleSheet.create({
     icon: {
         top: 5,
         left: 0,
-        position: "relative",
-        color: "rgba(128,128,128,1)",
+        position: 'relative',
+        color: 'rgba(128,128,128,1)',
         fontSize: 40,
         height: 37,
-        width: 40
+        width: 40,
     },
     counterTextStyle: {
         height: 37,
         width: 40,
-        position: "relative",
+        position: 'relative',
         fontSize: 30,
-        textAlign: "center"
+        textAlign: 'center',
     },
     buttonStyle: {
-        width: "90%", margin: 10, backgroundColor: "red"
-    }
+        width: '90%',
+        margin: 10,
+        backgroundColor: 'red',
+    },
 });

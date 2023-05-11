@@ -1,37 +1,37 @@
 import React, { useState, useEffect } from 'react';
 
-export default class LoadElements{
-    getItemsByCategory = async (category) => {
-        let state =  {
+export default class LoadElements {
+    getItemsByCategory = async(category) => {
+        let state = {
             data: [
                 {
                     id: '1',
-                    title: "Paper",
-                    quantity: 0
+                    title: 'Paper',
+                    quantity: 0,
                 },
                 {
-                    id: "2",
-                    title: "Glasso",
-                    quantity: 0
+                    id: '2',
+                    title: 'Glass',
+                    quantity: 0,
                 },
                 {
-                    id: "3",
-                    title: "Cardboard",
-                    quantity: 0
-                }
-            ]
+                    id: '3',
+                    title: 'Cardboard',
+                    quantity: 0,
+                },
+            ],
         };
-        console.log('http://localhost:8080/items/findAllByCategory?categoryType=' + category)
         try {
             let response = await fetch(
-                'http://localhost:8080/items/findAllByCategory?categoryType=' + category
+                'https://raw.githubusercontent.com/IGLV-TECH/Mocks-HTTPS/main/Items.html'
             );
             let json = await response.json();
-            console.log(json)
+            console.log("response:")
+            console.log(json);
+            return state;
         } catch (error) {
-            console.error(error);
+            console.log(error);
         }
-        return state;
-    };
 
+    };
 }
