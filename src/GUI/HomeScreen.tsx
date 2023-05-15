@@ -16,10 +16,11 @@ export default class LoadElements extends Component<any, any> {
 
     };
     async componentDidMount() {
-        const data = await this.ServerProxyInstance.getItemsByCategory(
+        var data = await this.ServerProxyInstance.getItemsByCategory(
             'PLASTIC_AND_BOTTLE'
         );
         this.setState( data );
+        this.initialize_quantity();
     }
     renderItem = ({ item }) => {
         return (
@@ -64,6 +65,16 @@ export default class LoadElements extends Component<any, any> {
         this.setState({ data: newData });
     };
 
+    initialize_quantity = () => {
+        const newData = this.state.data.map((item) => {
+            return {
+                ...item,
+                quantity:  0,
+            };
+        });
+        this.setState({ data: newData });
+    };
+
     render() {
         return (
             <SafeAreaView style={styles.container}>
@@ -104,7 +115,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     textStyle: {
-        fontSize: 25,
+        fontSize: 15,
     },
     icon: {
         top: 5,
