@@ -11,6 +11,14 @@ import {
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import ServerProxy from '../Network/ServerProxy';
 export default class LoadElements extends Component<any, any> {
+
+    constructor(props){
+        super()
+        this.navigation = props.navigation;
+        //this.category = category;
+        console.log(props);
+        //console.log(category);
+    }
     ServerProxyInstance = new ServerProxy();
     state = {
 
@@ -75,6 +83,12 @@ export default class LoadElements extends Component<any, any> {
         this.setState({ data: newData });
     };
 
+    clickEmitInvoice = () => {
+        console.log("Emit invoice")
+        this.ServerProxyInstance.getItemsByCategory(this.state.data);
+        this.navigation.navigate('QrCodeScanner');
+    }
+
     render() {
         return (
             <SafeAreaView style={styles.container}>
@@ -85,7 +99,7 @@ export default class LoadElements extends Component<any, any> {
                 />
                 <View style={styles.buttonStyle}>
                     <Button
-                        //onPress={this.buttonClickListener}
+                        onPress={this.clickEmitInvoice }
                         title="Emit Invoice"
                         color="#FF3D00"
                     />

@@ -24,7 +24,7 @@ export default function QrCodeScanner({ navigation }) {
         setScanned(true);
         setText(data);
         console.log('Type: ' + type + '\nData: ' + data);
-        navigation.navigate('HomeScreen');
+        navigation.navigate('HomeScreen', { category: 'PLASTIC_AND_BOTTLE' });
     };
 
     // Check permissions and return the screens

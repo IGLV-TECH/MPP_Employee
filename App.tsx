@@ -11,15 +11,9 @@ export default function App() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                <Stack.Screen name="HomeScreen" component={HomeScreen} />
                 <Stack.Screen name="QrCodeScanner" component={QrCodeScanner} options={{title: 'Welcome'}}/>
+                <Stack.Screen name="HomeScreen" component={HomeScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );
-};
-
-
-const ProfileScreen = ({navigation, route}) => {
-    return <Text>This is {route.params.name}'s profile</Text>;
-};
-
+}
