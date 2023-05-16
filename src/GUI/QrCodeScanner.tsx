@@ -4,8 +4,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 
 export default function QrCodeScanner({ navigation }) {
     const [hasPermission, setHasPermission] = useState(null);
-    const [scanned, setScanned] = useState(false);
-    const [text, setText] = useState('Not yet scanned');
+    const [text, setText] = useState('Scan');
 
     const askForCameraPermission = () => {
         (async () => {
@@ -21,8 +20,6 @@ export default function QrCodeScanner({ navigation }) {
 
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
-        setScanned(true);
-        setText(data);
         console.log('Type: ' + type + '\nData: ' + data);
         navigation.navigate('HomeScreen', { category: 'PLASTIC_AND_BOTTLE' });
     };
@@ -52,19 +49,11 @@ export default function QrCodeScanner({ navigation }) {
         <View style={styles.container}>
             <View style={styles.barcodebox}>
                 <BarCodeScanner
-                    onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+                    onBarCodeScanned={handleBarCodeScanned}
                     style={{ height: 400, width: 400 }}
                 />
             </View>
             <Text style={styles.maintext}>{text}</Text>
-
-            {scanned && (
-                <Button
-                    title={'Scan again?'}
-                    onPress={() => setScanned(false)}
-                    color="tomato"
-                />
-            )}
         </View>
     );
 }
