@@ -21,7 +21,7 @@ export default function QrCodeScanner({ navigation }) {
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
         console.log('Type: ' + type + '\nData: ' + data);
-        navigation.navigate('HomeScreen', { category: 'PLASTIC_AND_BOTTLE' });
+        navigation.replace('HomeScreen', { category: 'PLASTIC_AND_BOTTLE' });
     };
 
     // Check permissions and return the screens

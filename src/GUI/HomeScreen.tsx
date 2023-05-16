@@ -10,26 +10,28 @@ import {
 } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import ServerProxy from '../Network/ServerProxy';
+
 export default class LoadElements extends Component<any, any> {
-
-    constructor(props){
-        super()
+    constructor(props) {
+        console.log("open constructor for homescre");
+        super(props);
         this.navigation = props.navigation;
-        //this.category = category;
-        console.log(props);
-        //console.log(category);
+        this.category = props.route.params;
+        console.log(this.category);
+        this.state = {
+            data: [],
+        };
     }
-    ServerProxyInstance = new ServerProxy();
-    state = {
 
-    };
+    ServerProxyInstance = new ServerProxy();
+
     async componentDidMount() {
-        var data = await this.ServerProxyInstance.getItemsByCategory(
-            'PLASTIC_AND_BOTTLE'
-        );
-        this.setState( data );
-        this.initialize_quantity();
+        console.log("componentDidMount");
+        const data = await this.ServerProxyInstance.getItemsByCategory(this.category);
+        console.log(data);
+        this.initialize_quantity(data);
     }
+
     renderItem = ({ item }) => {
         return (
             <View style={styles.listitem}>
@@ -73,33 +75,35 @@ export default class LoadElements extends Component<any, any> {
         this.setState({ data: newData });
     };
 
-    initialize_quantity = () => {
-        const newData = this.state.data.map((item) => {
+    initialize_quantity = (data) => {
+        const newData = data.map((item) => {
             return {
                 ...item,
-                quantity:  0,
+                quantity: 0,
             };
         });
         this.setState({ data: newData });
     };
 
     clickEmitInvoice = () => {
-        console.log("Emit invoice")
+        console.log("Emit invoice");
         this.ServerProxyInstance.getItemsByCategory(this.state.data);
-        this.navigation.navigate('QrCodeScanner');
-    }
+        this.navigation.replace('QrCodeScanner');
+    };
 
     render() {
+        console.log("render");
         return (
             <SafeAreaView style={styles.container}>
                 <FlatList
                     data={this.state.data}
                     renderItem={this.renderItem}
                     keyExtractor={(item) => item.id}
+                    extraData={this.state.data}
                 />
                 <View style={styles.buttonStyle}>
                     <Button
-                        onPress={this.clickEmitInvoice }
+                        onPress={this.clickEmitInvoice}
                         title="Emit Invoice"
                         color="#FF3D00"
                     />

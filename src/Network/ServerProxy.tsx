@@ -4,11 +4,11 @@ export default class LoadElements {
     getItemsByCategory = async(category) => {
         try {
             let response = await fetch(
-                'https://raw.githubusercontent.com/IGLV-TECH/Mocks-HTTPS/main/ItemsPaperAndCardboard.html'
+                'http://localhost:8080/items/findAllByCategory?categoryType=PLASTIC_AND_BOTTLE'
             );
-            let json = await response.json();
-            console.log(json);
-            return json;
+            let data = await response.json();
+            console.log(data);
+            return data;
         } catch (error) {
             console.log(error);
         }
