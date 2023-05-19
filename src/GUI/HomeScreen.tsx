@@ -13,11 +13,9 @@ import ServerProxy from '../Network/ServerProxy';
 
 export default class LoadElements extends Component<any, any> {
     constructor(props) {
-        console.log("open constructor for homescre");
         super(props);
         this.navigation = props.navigation;
         this.category = props.route.params;
-        console.log(this.category);
         this.state = {
             data: [],
         };
@@ -26,9 +24,7 @@ export default class LoadElements extends Component<any, any> {
     ServerProxyInstance = new ServerProxy();
 
     async componentDidMount() {
-        console.log("componentDidMount");
         const data = await this.ServerProxyInstance.getItemsByCategory(this.category);
-        console.log(data);
         this.initialize_quantity(data);
     }
 
@@ -86,7 +82,6 @@ export default class LoadElements extends Component<any, any> {
     };
 
     clickEmitInvoice = () => {
-        console.log("Emit invoice");
         this.ServerProxyInstance.getItemsByCategory(this.state.data);
         this.navigation.replace('QrCodeScanner');
     };
