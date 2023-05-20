@@ -10,21 +10,26 @@ import {
 } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import ServerProxy from '../Network/ServerProxy';
+import {Simulate} from "react-dom/test-utils";
+import compositionStart = Simulate.compositionStart;
 
 export default class LoadElements extends Component<any, any> {
     constructor(props) {
         super(props);
+        console.log("Load homescreen")
+        console.log(props)
         this.navigation = props.navigation;
-        this.category = props.route.params;
-        this.idClient = props.idClient;
-        this.idEmployee = props.idEmployee;
-        this.penalty = {
+        this.category = props.route.params.category;
+        this.idEmployee = props.route.params.idEmployee;
+        this.idClient = props.route.params.idClient;
+        let newPenalty = {
             id: 0,
             title: "Penalty",
             quantity: 0
         };
         this.state = {
             data: [],
+            penalty: newPenalty
         };
     }
 
@@ -79,11 +84,15 @@ export default class LoadElements extends Component<any, any> {
     };
 
     decreasePenalty = () => {
-        this.penalty = this.penalty - 1;
+        let newPenalty = this.state.penalty;
+        newPenalty.quantity = newPenalty.quantity - 1;
+        this.setState({penalty: newPenalty})
     }
 
     increasePenalty = () => {
-        this.penalty = this.penalty + 1;
+        let newPenalty = this.state.penalty;
+        newPenalty.quantity = newPenalty.quantity + 1;
+        this.setState({penalty: newPenalty})
     }
 
     initialize_quantity = (data) => {
@@ -97,7 +106,16 @@ export default class LoadElements extends Component<any, any> {
     };
 
     clickEmitInvoice = () => {
-        this.ServerProxyInstance.getItemsByCategory(this.state.data);
+        console.log(this.state.idClient)
+        this.ServerProxyInstance.sendInvoice(
+            {
+                idClient: this.idClient,
+                idEmployee: this.idEmployee,
+                category: this.category,
+                penalty: this.state.penalty.quantity,
+                items: this.state.data
+            }
+        );
         this.navigation.replace('QrCodeScanner');
     };
 
@@ -112,12 +130,12 @@ export default class LoadElements extends Component<any, any> {
                     extraData={this.state.data}
                 />
                 <View style={styles.listitem}>
-                    <Text style={styles.textStyle}>{this.penalty.title}</Text>
+                    <Text style={styles.textStyle}>{this.state.penalty.title}</Text>
                     <View style={styles.counter}>
                         <TouchableOpacity onPress={() => this.decreasePenalty()}>
                             <EntypoIcon name="minus" style={styles.icon} />
                         </TouchableOpacity>
-                        <Text style={styles.counterTextStyle}>{this.penalty.quantity}</Text>
+                        <Text style={styles.counterTextStyle}>{this.state.penalty.quantity}</Text>
                         <TouchableOpacity onPress={() => this.increasePenalty()}>
                             <EntypoIcon name="plus" style={styles.icon} />
                         </TouchableOpacity>

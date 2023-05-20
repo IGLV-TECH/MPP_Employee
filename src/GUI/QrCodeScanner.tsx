@@ -16,7 +16,7 @@ export default function QrCodeScanner({ navigation }) {
     // Request Camera Permission
     useEffect(() => {
         //the following line is to skip qr code scan
-        navigation.replace('HomeScreen', { category: 'PLASTIC_AND_BOTTLE' });
+        navigation.replace('HomeScreen', { category: 'PLASTIC_AND_BOTTLE', idClient: 1, idEmployee: 1 });
         askForCameraPermission();
     }, []);
 
