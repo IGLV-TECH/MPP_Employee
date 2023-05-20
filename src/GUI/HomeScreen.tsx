@@ -16,6 +16,13 @@ export default class LoadElements extends Component<any, any> {
         super(props);
         this.navigation = props.navigation;
         this.category = props.route.params;
+        this.idClient = props.idClient;
+        this.idEmployee = props.idEmployee;
+        this.penalty = {
+            id: 0,
+            title: "Penalty",
+            quantity: 0
+        };
         this.state = {
             data: [],
         };
@@ -24,7 +31,7 @@ export default class LoadElements extends Component<any, any> {
     ServerProxyInstance = new ServerProxy();
 
     async componentDidMount() {
-        const data = await this.ServerProxyInstance.getItemsByCategory(this.category);
+        let data = await this.ServerProxyInstance.getItemsByCategory(this.category);
         this.initialize_quantity(data);
     }
 
@@ -71,6 +78,14 @@ export default class LoadElements extends Component<any, any> {
         this.setState({ data: newData });
     };
 
+    decreasePenalty = () => {
+        this.penalty = this.penalty - 1;
+    }
+
+    increasePenalty = () => {
+        this.penalty = this.penalty + 1;
+    }
+
     initialize_quantity = (data) => {
         const newData = data.map((item) => {
             return {
@@ -96,7 +111,19 @@ export default class LoadElements extends Component<any, any> {
                     keyExtractor={(item) => item.id}
                     extraData={this.state.data}
                 />
-                <View style={styles.buttonStyle}>
+                <View style={styles.listitem}>
+                    <Text style={styles.textStyle}>{this.penalty.title}</Text>
+                    <View style={styles.counter}>
+                        <TouchableOpacity onPress={() => this.decreasePenalty()}>
+                            <EntypoIcon name="minus" style={styles.icon} />
+                        </TouchableOpacity>
+                        <Text style={styles.counterTextStyle}>{this.penalty.quantity}</Text>
+                        <TouchableOpacity onPress={() => this.increasePenalty()}>
+                            <EntypoIcon name="plus" style={styles.icon} />
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <View style={styles.buttonContainer}>
                     <Button
                         onPress={this.clickEmitInvoice}
                         title="Emit Invoice"
@@ -121,34 +148,25 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     counter: {
-        padding: 20,
-        height: 37,
-        width: 120,
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        alignItems: 'center',
     },
     textStyle: {
-        fontSize: 15,
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginRight: 8,
     },
     icon: {
-        top: 5,
-        left: 0,
-        position: 'relative',
-        color: 'rgba(128,128,128,1)',
-        fontSize: 40,
-        height: 37,
-        width: 40,
+        fontSize: 20,
+        color: 'black',
+        marginHorizontal: 8,
     },
     counterTextStyle: {
-        height: 37,
-        width: 40,
-        position: 'relative',
-        fontSize: 30,
-        textAlign: 'center',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
-    buttonStyle: {
-        width: '90%',
-        margin: 10,
-        backgroundColor: 'red',
+    buttonContainer: {
+        marginHorizontal: 16,
+        marginBottom: 16,
     },
 });
