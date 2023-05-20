@@ -16,13 +16,29 @@ export default function QrCodeScanner({ navigation }) {
     // Request Camera Permission
     useEffect(() => {
         //the following line is to skip qr code scan
-        navigation.replace('HomeScreen', { category: 'PLASTIC_AND_BOTTLE', idClient: 1, idEmployee: 1 });
+        //navigation.replace('HomeScreen', { category: 'PLASTIC_AND_BOTTLE', idClient: 1, idEmployee: 1 });
         askForCameraPermission();
     }, []);
 
+    const parseString = (inputString) => {
+        const commaIndex = inputString.indexOf(',');
+
+        if (commaIndex !== -1) {
+            const category = inputString.slice(0, commaIndex).trim();
+            const idClient = inputString.slice(commaIndex + 1).trim();
+
+            return { category, idClient };
+        }
+
+        // If no comma found, return empty values or handle the case accordingly
+        return { category: '', idClient: '' };
+    };
+
+
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
-        console.log('Type: ' + type + '\nData: ' + data);
+        const { category, idClient } = parseString(data);
+        console.log('Type: ' + category + '\nData: ' + idClient);
         navigation.replace('HomeScreen', { category: 'PLASTIC_AND_BOTTLE', idClient: 1, idEmployee: 1 });
     };
 

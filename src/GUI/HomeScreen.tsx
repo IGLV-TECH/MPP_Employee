@@ -16,8 +16,6 @@ import compositionStart = Simulate.compositionStart;
 export default class LoadElements extends Component<any, any> {
     constructor(props) {
         super(props);
-        console.log("Load homescreen")
-        console.log(props)
         this.navigation = props.navigation;
         this.category = props.route.params.category;
         this.idEmployee = props.route.params.idEmployee;
