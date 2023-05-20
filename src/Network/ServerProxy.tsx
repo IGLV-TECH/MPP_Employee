@@ -4,10 +4,10 @@ export default class LoadElements {
     getItemsByCategory = async(props) => {
         let url = 'http://localhost:8080/items/findAllByCategory?categoryType=' + props.category;
         try {
-            console.log(url)
+            console.log(url);
             let response = await fetch(
                 url, {mode: 'cors'}
-            )
+            );
             let data = await response.json();
             console.log(data);
             return data;
