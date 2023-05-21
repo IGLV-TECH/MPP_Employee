@@ -2,29 +2,44 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
-export default function QrCodeScanner({navigation}) {
+export default function QrCodeScanner({ navigation }) {
     const [hasPermission, setHasPermission] = useState(null);
-    const [scanned, setScanned] = useState(false);
-    const [text, setText] = useState('Not yet scanned')
+    const [text, setText] = useState('Scan');
 
     const askForCameraPermission = () => {
         (async () => {
             const { status } = await BarCodeScanner.requestPermissionsAsync();
             setHasPermission(status === 'granted');
-        })()
-    }
+        })();
+    };
 
     // Request Camera Permission
     useEffect(() => {
+        //the following line is to skip qr code scan
+        //navigation.replace('HomeScreen', { category: 'PLASTIC_AND_BOTTLE', idClient: 1, idEmployee: 1 });
         askForCameraPermission();
     }, []);
 
+    const parseString = (inputString) => {
+        const commaIndex = inputString.indexOf(',');
+
+        if (commaIndex !== -1) {
+            const category = inputString.slice(0, commaIndex).trim();
+            const idClient = inputString.slice(commaIndex + 1).trim();
+
+            return { category, idClient };
+        }
+
+        // If no comma found, return empty values or handle the case accordingly
+        return { category: '', idClient: '' };
+    };
+
+
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
-        setScanned(true);
-        setText(data)
-        console.log('Type: ' + type + '\nData: ' + data)
-        navigation.navigate('HomeScreen')
+        const { category, idClient } = parseString(data);
+        console.log('Type: ' + category + '\nID_CLient: ' + idClient);
+        navigation.replace('HomeScreen', { category: 'PLASTIC_AND_BOTTLE', idClient: 1, idEmployee: 1 });
     };
 
     // Check permissions and return the screens
@@ -32,14 +47,19 @@ export default function QrCodeScanner({navigation}) {
         return (
             <View style={styles.container}>
                 <Text>Requesting for camera permission</Text>
-            </View>)
+            </View>
+        );
     }
     if (hasPermission === false) {
         return (
             <View style={styles.container}>
                 <Text style={{ margin: 10 }}>No access to camera</Text>
-                <Button title={'Allow Camera'} onPress={() => askForCameraPermission()} />
-            </View>)
+                <Button
+                    title={'Allow Camera'}
+                    onPress={() => askForCameraPermission()}
+                />
+            </View>
+        );
     }
 
     // Return the View
@@ -47,12 +67,11 @@ export default function QrCodeScanner({navigation}) {
         <View style={styles.container}>
             <View style={styles.barcodebox}>
                 <BarCodeScanner
-                    onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                    style={{ height: 400, width: 400 }} />
+                    onBarCodeScanned={handleBarCodeScanned}
+                    style={{ height: 400, width: 400 }}
+                />
             </View>
             <Text style={styles.maintext}>{text}</Text>
-
-            {scanned && <Button title={'Scan again?'} onPress={() => setScanned(false)} color='tomato' />}
         </View>
     );
 }
@@ -75,6 +94,6 @@ const styles = StyleSheet.create({
         width: 300,
         overflow: 'hidden',
         borderRadius: 30,
-        backgroundColor: 'tomato'
-    }
+        backgroundColor: 'tomato',
+    },
 });
