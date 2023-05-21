@@ -19,7 +19,6 @@ export default class LoadElements {
     };
 
     sendInvoice = async (body) => {
-        console.log("creating fuckin' invoice");
         console.log(body.items);
         const newData = body.items.map((item) => {
             return {

@@ -38,7 +38,7 @@ export default function QrCodeScanner({ navigation }) {
     // What happens when we scan the bar code
     const handleBarCodeScanned = ({ type, data }) => {
         const { category, idClient } = parseString(data);
-        console.log('Type: ' + category + '\nData: ' + idClient);
+        console.log('Type: ' + category + '\nID_CLient: ' + idClient);
         navigation.replace('HomeScreen', { category: 'PLASTIC_AND_BOTTLE', idClient: 1, idEmployee: 1 });
     };
 
