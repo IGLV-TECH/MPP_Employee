@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 export default class LoadElements {
     getItemsByCategory = async(category) => {
         let url = 'http://localhost:8080/items/findAllByCategory?categoryType=' + category;
+        //let url = 'https://raw.githubusercontent.com/IGLV-TECH/Mocks-HTTPS/main/ItemsPlasticAndBottle.html'
         try {
             console.log(url);
             let response = await fetch(
