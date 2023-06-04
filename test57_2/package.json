@@ -1,0 +1,19 @@
+{
+  "name": "MyReactNativeApp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "yarn react-native start"
+  },
+  "dependencies": {
+    "@nartc/react-native-barcode-mask": "^1.2.0",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native-stack": "^6.9.12",
+    "expo-barcode-scanner": "^12.3.2",
+    "expo-modules-core": "^1.2.7",
+    "react": "^18.3.0-next-fecc288b7-20221025",
+    "react-native": "^0.71.8",
+    "react-native-camera": "^4.2.1",
+    "react-native-paper": "^5.8.0"
+  }
+}

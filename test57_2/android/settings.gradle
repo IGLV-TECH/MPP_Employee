@@ -1,0 +1,35 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "app"
+include ':app'
+
+//include ':expo-modules-core'
+//project(':expo-modules-core').projectDir = new File(rootProject.projectDir, '../node_modules/expo-modules-core/android')
+
+
+//includeBuild('../node_modules/react-native-gradle-plugin')
+
+//apply from: file("../node_modules/react-native-safe-area-context/android/build.gradle");
+//applyNativeModulesAppBuildGradle(project)
+//include ':react-native-safe-area-context'
+//apply from: new File(["node", "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(), "../node_modules/react-native-safe-area-context/android/build.gradle")
+
+include ':react-native-camera'
+project(':react-native-camera').projectDir = new File(rootProject.projectDir,   '../node_modules/react-native-camera/android')
+//include ':react-native-safe-area-context'
+//project(':react-native-safe-area-context').projectDir = new File(rootProject.projectDir,   '../node_modules/react-native-safe-area-context/android')
+//include ':react-native-screens'
+//project(':react-native-screens').projectDir = new File(rootProject.projectDir,   '../node_modules/react-native-screens/android')
