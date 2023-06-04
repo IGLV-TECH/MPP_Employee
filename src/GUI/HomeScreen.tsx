@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import ServerProxy from '../Network/ServerProxy';
-import {Simulate} from "react-dom/test-utils";
-import compositionStart = Simulate.compositionStart;
+//import {Simulate} from "react-dom/test-utils";
+//import compositionStart = Simulate.compositionStart;
 
 export default class LoadElements extends Component<any, any> {
     constructor(props) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+
 export default class LoadElements {
     getItemsByCategory = async(category) => {
         let url = 'http://localhost:8080/items/findAllByCategory?categoryType=' + category;
