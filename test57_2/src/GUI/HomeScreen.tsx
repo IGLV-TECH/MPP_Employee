@@ -7,7 +7,7 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    AppRegistry, Alert
+    AppRegistry, Alert, NativeModules
 } from 'react-native';
 //import EntypoIcon from 'react-native-vector-icons/Entypo';
 import ServerProxy from '../Network/ServerProxy';
@@ -18,12 +18,16 @@ import ServerProxy from '../Network/ServerProxy';
 export default class LoadElements extends Component<any, any> {
     constructor(props) {
         super(props);
-
-        //this.navigation = props.navigation;
+        console.error("this are properties from here: ")
+        NativeModules.PageChanger.readFromFile((token) => {
+                console.log('Result token ',token);
+                this.token2 = token;
+            }
+        );
+        console.log(this.token2);
         //this.category = props.route.params.category;
         //this.idEmployee = props.route.params.idEmployee;
         //this.idClient = props.route.params.idClient;
-        this.navigation = 0;
         this.category = 'PLASTIC_AND_BOTTLE';
         this.idEmployee = 1;
         this.idClient = 1;
@@ -121,7 +125,6 @@ export default class LoadElements extends Component<any, any> {
                 items: this.state.data
             }
         );
-        //this.navigation.replace('QrCodeScanner');
     };
 
     render() {

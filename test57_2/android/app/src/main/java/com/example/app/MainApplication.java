@@ -1,6 +1,7 @@
 package com.example.app;
 
 import android.app.Application;
+import android.util.Log;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
@@ -22,8 +23,6 @@ public class MainApplication extends Application implements ReactApplication {
                 @Override
                 protected List<ReactPackage> getPackages() {
                     List<ReactPackage> packages = new PackageList(this).getPackages();
-                    // Packages that cannot be autolinked yet can be added manually here, for example:
-                    //packages.add(new BarCodeScannerPackage());
                     packages.add(new MyAppPackage());
                     return packages;
                 }

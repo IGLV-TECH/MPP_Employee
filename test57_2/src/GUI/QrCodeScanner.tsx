@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { AppRegistry, View, Text, StyleSheet, Alert } from 'react-native';
+import {AppRegistry, View, Text, StyleSheet, Alert, NativeModules} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import LoadElements from "./HomeScreen";
+
 
 export default function QrCodeScanner() {
     const [scanned, setScanned] = useState(false);
@@ -22,6 +23,7 @@ export default function QrCodeScanner() {
         setScanned(true);
         setScannedData(data);
         showAlert(data);
+        NativeModules.PageChanger.changePage();
     };
 
     const showAlert = (data) => {

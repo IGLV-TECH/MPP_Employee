@@ -1,9 +1,9 @@
 package com.example.app;
 import com.facebook.react.ReactActivity;
 
-public class ReactNativeActivity extends ReactActivity {
+public class ReactNativeLoadLogin extends ReactActivity {
     @Override
     protected String getMainComponentName() {
-        return "MyReactNativeApp";
+        return "LoadLogin";
     }
 }

@@ -25,11 +25,23 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ReactNativeActivity"
+                android:name=".ReactNativeQRScanner"
                 android:label="@string/app_name"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar"
                 android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
                 android:windowSoftInputMode="adjustResize" />
+        <activity
+                android:name=".ReactNativeHomeScreen"
+                android:label="@string/app_name"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+                android:windowSoftInputMode="adjustResize"/>
+        <activity
+                android:name=".ReactNativeLoadLogin"
+                android:label="@string/app_name"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+                android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+                android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>
