@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import {AppRegistry, View, Text, StyleSheet, Alert, NativeModules} from 'react-native';
+import {AppRegistry, View, Text, StyleSheet, Alert, NativeModules, TouchableOpacity} from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import LoadElements from "./HomeScreen";
+import ServerProxy from "../Network/ServerProxy";
 
 
 export default function QrCodeScanner() {
     const [scanned, setScanned] = useState(false);
-    const [scannedData, setScannedData] = useState('');
 
     useEffect(() => {
         // Request Camera Permission
@@ -19,11 +19,27 @@ export default function QrCodeScanner() {
         askForCameraPermission();
     }, []);
 
+    const parseString = (inputString) => {
+        const commaIndex = inputString.indexOf(',');
+
+        if (commaIndex !== -1) {
+            const idClient = inputString.slice(0, commaIndex).trim();
+            const category = inputString.slice(commaIndex + 1).trim();
+
+            return { idClient, category };
+        }
+
+        return { idClient: '', category: '' };
+    };
+
     const handleBarCodeScanned = ({ data }) => {
         setScanned(true);
-        setScannedData(data);
-        showAlert(data);
-        NativeModules.PageChanger.changePage();
+
+        const { idClient, category } = parseString(data);
+
+        console.log("from react");
+        console.log(idClient, category);
+        NativeModules.PageChanger.loadHomeScreen(idClient, category);
     };
 
     const showAlert = (data) => {
@@ -42,8 +58,19 @@ export default function QrCodeScanner() {
         );
     };
 
+    const handleLogout = () => {
+        let ServerProxyInstance = new ServerProxy();
+        ServerProxyInstance.logout();
+        NativeModules.PageChanger.loadLoginScreen();
+    }
+
     return (
         <View style={styles.container}>
+            <TouchableOpacity
+                style={styles.logoutButton}
+                onPress={handleLogout}>
+                <Text style={styles.logoutButtonText}>Logout</Text>
+            </TouchableOpacity>
             <RNCamera
                 style={styles.camera}
                 type={RNCamera.Constants.Type.back}
@@ -59,16 +86,26 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#000',
+        backgroundColor: '#000000',
     },
     camera: {
-        width: '100%',
-        height: '100%',
+        width: '50%',
+        height: '50%',
     },
     scanText: {
         color: '#fff',
         fontSize: 20,
         fontWeight: 'bold',
         marginTop: 20,
+    },
+    logoutButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        padding: 10,
+    },
+    logoutButtonText: {
+        color: '#fff',
+        fontSize: 16,
     },
 });

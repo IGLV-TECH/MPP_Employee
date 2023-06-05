@@ -20,6 +20,7 @@ export default class LoadElements extends Component<any, any> {
         this.category = props.route.params.category;
         this.idEmployee = props.route.params.idEmployee;
         this.idClient = props.route.params.idClient;
+        this.token = props.route.params.token;
         let newPenalty = {
             id: 0,
             title: "Penalty",
@@ -34,7 +35,7 @@ export default class LoadElements extends Component<any, any> {
     ServerProxyInstance = new ServerProxy();
 
     async componentDidMount() {
-        let data = await this.ServerProxyInstance.getItemsByCategory(this.category);
+        let data = await this.ServerProxyInstance.getItemsByCategory(this.category, this.token);
         this.initialize_quantity(data);
     }
 

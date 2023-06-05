@@ -20,9 +20,9 @@ public class PageChanger extends ReactContextBaseJavaModule {
         return "PageChanger";
     }
 
-    public void writeToFile(String data) {
+    public void writeToFile(String key, String data) {
         try {
-            File file = new File(getReactApplicationContext().getFilesDir(), "example.txt");
+            File file = new File(getReactApplicationContext().getFilesDir(), key + "_value.txt");
             if (!file.exists()) {
                 file.createNewFile();
             }
@@ -30,17 +30,20 @@ public class PageChanger extends ReactContextBaseJavaModule {
             writer.append(data);
             writer.flush();
             writer.close();
-            Log.i("React Native", "succccccccccccccccccccccccccc");
+            Log.i("React Native Write to file", key);
+            //throw new RuntimeException("Write to file " + key);
         } catch (IOException e) {
-            Log.e("React Native", "errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr: " + e.getMessage());
+            Log.e("React Native Write to file", key);
+            //throw new RuntimeException("Write to file " + key);
         }
+
     }
 
     @ReactMethod
-    public void readFromFile(Callback callback) {
+    public void readFromFile(String key, Callback callback) {
         StringBuilder stringBuilder = new StringBuilder();
         try {
-            File file = new File(getReactApplicationContext().getFilesDir(), "example.txt");
+            File file = new File(getReactApplicationContext().getFilesDir(), key + "_value.txt");
             if (file.exists()) {
                 BufferedReader reader = new BufferedReader(new FileReader(file));
                 String line;
@@ -52,16 +55,34 @@ public class PageChanger extends ReactContextBaseJavaModule {
         } catch (IOException e) {
             throw new RuntimeException("Error reading file" + e.getMessage());
         }
-        Log.i("getToken:", stringBuilder.toString());
+        Log.i("get:" + key, stringBuilder.toString());
         callback.invoke(stringBuilder.toString());
     }
 
-
     @ReactMethod
-    public void changePage(String newPage) {
-        Intent intent = new Intent(getReactApplicationContext(), ReactNativeHomeScreen.class);
+    public void loadQRScanner(String token, String idEmployee) {
+        Log.i("React native ", "loadQRScanner");
+        Intent intent = new Intent(getReactApplicationContext(), ReactNativeQRScanner.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        writeToFile("1");
+        writeToFile("token", token);
+        writeToFile("idEmployee", idEmployee);
         getReactApplicationContext().startActivity(intent);
     }
+
+    @ReactMethod
+    public void loadHomeScreen(String idClient, String category) {
+        Intent intent = new Intent(getReactApplicationContext(), ReactNativeHomeScreen.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        writeToFile("idClient", idClient);
+        writeToFile("category", category);
+        getReactApplicationContext().startActivity(intent);
+    }
+
+    @ReactMethod
+    public void loadLoginScreen() {
+        Intent intent = new Intent(getReactApplicationContext(), ReactNativeLoadLogin.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getReactApplicationContext().startActivity(intent);
+    }
+
 }

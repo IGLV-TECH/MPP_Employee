@@ -14,23 +14,13 @@ import ServerProxy from '../Network/ServerProxy';
 //import {Simulate} from "react-dom/test-utils";
 //import compositionStart = Simulate.compositionStart;
 
+const delay = ms => new Promise(
+    resolve => setTimeout(resolve, ms)
+);
 
 export default class LoadElements extends Component<any, any> {
     constructor(props) {
         super(props);
-        console.error("this are properties from here: ")
-        NativeModules.PageChanger.readFromFile((token) => {
-                console.log('Result token ',token);
-                this.token2 = token;
-            }
-        );
-        console.log(this.token2);
-        //this.category = props.route.params.category;
-        //this.idEmployee = props.route.params.idEmployee;
-        //this.idClient = props.route.params.idClient;
-        this.category = 'PLASTIC_AND_BOTTLE';
-        this.idEmployee = 1;
-        this.idClient = 1;
         let newPenalty = {
             id: 0,
             title: "Penalty",
@@ -45,8 +35,56 @@ export default class LoadElements extends Component<any, any> {
     ServerProxyInstance = new ServerProxy();
 
     async componentDidMount() {
+        NativeModules.PageChanger.readFromFile('category', async(category) => {
+            this.category = category;
+            console.log("token in react native is ");
+            console.log(this.category);
+        });
+        NativeModules.PageChanger.readFromFile('idClient', async(idClient) => {
+            this.idClient = idClient;
+            console.log("token in react native is ");
+            console.log(this.idClient);
+        });
+        NativeModules.PageChanger.readFromFile('idEmployee', async(idEmployee) => {
+            this.idEmployee = idEmployee;
+            console.log("token in react native is ");
+            console.log(this.idEmployee);
+        });
+        NativeModules.PageChanger.readFromFile('token', async(token) => {
+            this.token = token;
+            console.log("token in react native is ");
+            console.log(this.token);
+        });
+        await delay(400);
+
         let data = await this.ServerProxyInstance.getItemsByCategory(this.category);
         this.initialize_quantity(data);
+    }
+
+    renderBackButton = () => {
+        return (
+            <TouchableOpacity onPress={this.goBack}>
+                <Text style={styles.backButton}>Back</Text>
+            </TouchableOpacity>
+        );
+    };
+
+    goBack = () => {
+        NativeModules.PageChanger.loadQRScanner(this.token, this.idEmployee);
+    };
+
+    renderLogoutButton = () => {
+        return (
+            <TouchableOpacity onPress={this.handleLogout}>
+                <Text style={styles.backButton}>Logout</Text>
+            </TouchableOpacity>
+        );
+    };
+
+    handleLogout = () => {
+        let ServerProxyInstance = new ServerProxy();
+        ServerProxyInstance.logout();
+        NativeModules.PageChanger.loadLoginScreen();
     }
 
     renderItem = ({ item }) => {
@@ -125,12 +163,17 @@ export default class LoadElements extends Component<any, any> {
                 items: this.state.data
             }
         );
+        this.goBack();
     };
 
     render() {
         console.log("render react page");
         return (
             <SafeAreaView style={styles.container}>
+                <View style={styles.header}>
+                    {this.renderBackButton()}
+                    {this.renderLogoutButton()}
+                </View>
                 <FlatList
                     data={this.state.data}
                     renderItem={this.renderItem}
@@ -167,8 +210,8 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
     listitem: {
-        padding: 20,
-        marginVertical: 8,
+        padding: 17,
+        marginVertical: 4,
         marginHorizontal: 16,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -178,21 +221,44 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     textStyle: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: 'bold',
         marginRight: 8,
     },
     icon: {
-        fontSize: 22,
+        fontSize: 20,
         color: 'black',
         marginHorizontal: 8,
     },
     counterTextStyle: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: 'bold',
     },
     buttonContainer: {
         marginHorizontal: 32,
         marginBottom: 32,
+    },
+    backButton: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginLeft: 16,
+        marginTop: 8,
+    },
+    logoutButton: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginLeft: 16,
+        marginTop: 8,
+    },
+    logoutButtonText: {
+        color: '#000000',
+        fontSize: 16,
+    },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        marginBottom: 8,
     },
 });

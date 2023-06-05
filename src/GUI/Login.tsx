@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, Alert, StyleSheet, NativeModules } from 'react-native';
+import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import ServerProxy from "../Network/ServerProxy";
+import {conditionMatchesFile} from "@expo/webpack-config/utils";
 
-export default function LoadLogin() {
+export default function LoadLogin({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -10,9 +11,8 @@ export default function LoadLogin() {
     const handleLogin = async () => {
         var response = await ServerProxyInstance.login(username, password);
         var token = response.token;
-        var idEmployee = response.employee.id.toString();
-        console.log("from react native token: ", token);
-        NativeModules.PageChanger.loadQRScanner(token, idEmployee);
+        console.log(token)
+        navigation.replace('HomeScreen', { token: token, category: 'PLASTIC_AND_BOTTLE', idClient: 1, idEmployee: 1 });
     };
 
     return (
