@@ -6,7 +6,7 @@ import {
     FlatList,
     StyleSheet,
     Text,
-    TouchableOpacity,
+    TouchableOpacity, Alert,
 } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import ServerProxy from '../Network/ServerProxy';
@@ -115,7 +115,7 @@ export default class LoadElements extends Component<any, any> {
                 items: this.state.data
             }
         );
-        this.navigation.replace('QrCodeScanner');
+        this.navigation.replace('Login');
     };
 
     render() {

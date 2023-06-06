@@ -9,12 +9,8 @@ export default function QrCodeScanner() {
     const [scanned, setScanned] = useState(false);
 
     useEffect(() => {
-        // Request Camera Permission
         const askForCameraPermission = async () => {
-            // const { status } = await RNCamera.requestPermissionsAsync();
-            // if (status === 'granted') {
             setScanned(false);
-            // }
         };
         askForCameraPermission();
     }, []);
@@ -34,7 +30,6 @@ export default function QrCodeScanner() {
 
     const handleBarCodeScanned = ({ data }) => {
         setScanned(true);
-
         const { idClient, category } = parseString(data);
 
         console.log("from react");
@@ -42,21 +37,6 @@ export default function QrCodeScanner() {
         NativeModules.PageChanger.loadHomeScreen(idClient, category);
     };
 
-    const showAlert = (data) => {
-        Alert.alert(
-            'QR Code Scanned',
-            `Content: ${data}`,
-            [
-                {
-                    text: 'OK',
-                    onPress: () => {
-                        setScanned(false);
-                    },
-                },
-            ],
-            { cancelable: false }
-        );
-    };
 
     const handleLogout = () => {
         let ServerProxyInstance = new ServerProxy();

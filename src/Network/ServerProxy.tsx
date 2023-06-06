@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {NativeModules} from "react-native";
+import {Alert, NativeModules} from "react-native";
 
 export default class LoadElements {
     login = async(email, password) => {
@@ -15,10 +15,16 @@ export default class LoadElements {
         };
         try {
             let response = await fetch(url, requestOptions);
+            console.log("Login response")
+            console.log(response);
             let data = await response.json();
+            if(response.status === 401)
+                return 'Invalid credentials'
             return data;
         } catch (error) {
-            console.error(error);
+            console.log("login response: ");
+            console.log(error);
+            return 'Network error';
         }
     }
 
